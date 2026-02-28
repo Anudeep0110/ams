@@ -28,4 +28,13 @@ public class Employee {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "roles")
+    private String role;
+
 }

@@ -20,4 +20,6 @@ public interface EmployeeRepo extends JpaRepository<Employee , Long> {
 
     public List<EmployeeView> findEmployeeByStatus(String status);
 
+    public List<Employee> findEmployeeByEmailAndPassword(String email, String password);
+
 }

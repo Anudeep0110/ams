@@ -1,5 +1,6 @@
 package com.example.ams.controllers;
 
+import com.example.ams.RequestBodies.CreateClientBody;
 import com.example.ams.models.Employee;
 import com.example.ams.models.OAuthClients;
 import com.example.ams.services.OAuthClientsService;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/accounts")
 public class OAuthClientsController {
 
     @Autowired
@@ -25,11 +26,11 @@ public class OAuthClientsController {
     @Autowired
     private PasswordEncoder passwordencoder;
 
+
     @PostMapping("/createclient")
-    public ResponseEntity<HashMap<String,String>> createClient(@RequestBody Employee employee) {
+    public ResponseEntity<HashMap<String,String>> createClient(@RequestBody CreateClientBody clientbody) {
         try {
-            System.out.println(employee);
-            OAuthClients oauthclient = oauthservice.createClient(employee);
+            OAuthClients oauthclient = oauthservice.createClient(clientbody);
             return ResponseEntity.status(HttpStatus.CREATED).body(new HashMap<>(Map.of(
                     "status","1",
                     "clientId", oauthclient.getClientId(),

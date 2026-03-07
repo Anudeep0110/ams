@@ -72,6 +72,22 @@ public class EmployeeService {
                             curEmp.setPassword(passwordHandler.passwordEncoder().encode(emp.getPassword()));
                         }
 
+                        if (emp.getDepartment() != null && !emp.getDepartment().isEmpty()) {
+                            curEmp.setDepartment(emp.getDepartment());
+                        }
+
+                        if (emp.getDesignation() != null && !emp.getDesignation().isEmpty()) {
+                            curEmp.setDesignation(emp.getDesignation());
+                        }
+
+                        if (emp.getCompany() != null && !emp.getCompany().isEmpty()) {
+                            curEmp.setCompany(emp.getCompany());
+                        }
+
+                        if (emp.getDateOfJoining() != null && !emp.getDateOfJoining().toString().isEmpty()) {
+                            curEmp.setDateOfJoining(emp.getDateOfJoining());
+                        }
+
                         employeerepo.save(curEmp);
                     }else{
                         throw new RuntimeException("Something went Wrong!");

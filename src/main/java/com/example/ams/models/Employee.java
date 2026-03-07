@@ -1,12 +1,9 @@
 package com.example.ams.models;
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
-//import org.springframework.data.annotation.Id;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -36,5 +33,22 @@ public class Employee {
 
     @Column(name = "roles")
     private String role;
+
+    @Column(name = "designation")
+    private String designation;
+
+    @Column(name = "department")
+    private String department;
+
+    @Column(name = "company")
+    private String company;
+
+    @Column(name = "date_of_joining")
+    private Date dateOfJoining;
+
+//    @ManyToOne
+//    @JoinColumn(name = "shift_code")
+
+//    private Shifts shift;
 
 }

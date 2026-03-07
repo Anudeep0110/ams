@@ -1,5 +1,6 @@
 package com.example.ams.services;
 
+import com.example.ams.RequestBodies.CreateClientBody;
 import com.example.ams.models.Employee;
 import com.example.ams.models.OAuthClients;
 import com.example.ams.repo.EmployeeRepo;
@@ -16,22 +17,20 @@ import java.util.UUID;
 public class OAuthClientsService{
 
     @Autowired
-    private OAuthClients oauthclient;
-    @Autowired
     private OAuthClientsRepo oauthrepo;
     @Autowired
     public PasswordEncoder passwordencoder;
     @Autowired
     private EmployeeRepo employeerepo;
 
-    public OAuthClients createClient(@RequestBody Employee employee) {
+    public OAuthClients createClient(CreateClientBody clientBody) {
 
-        List<Employee> employees = employeerepo.findEmployeeByEmail(employee.getEmail());
+        List<Employee> employees = employeerepo.findEmployeeByEmail(clientBody.getEmail());
         if (employees.isEmpty()) {
             throw new RuntimeException("User not found!");
         }else {
             Employee curr = employees.getFirst();
-            if(passwordencoder.matches(employee.getPassword(), curr.getPassword())) {
+            if(passwordencoder.matches(clientBody.getPassword(), curr.getPassword())) {
                 List<OAuthClients> allclients = oauthrepo.findByEmployee(curr);
                 System.out.println(allclients);
                 if (allclients.size() >= 5) {
@@ -39,12 +38,18 @@ public class OAuthClientsService{
                 } else {
                     String clientId = UUID.randomUUID().toString();
                     String clientSecret = UUID.randomUUID().toString();
+                    String role = clientBody.getScope();
+
+                    if (!role.equals("ADMIN.WRITE") && !role.equals("ADMIN.READ") && !role.equals("USER.READ")) {
+                        throw new RuntimeException("Select proper role from the drop-down");
+                    }
 
                     String encodedSecret = passwordencoder.encode(clientSecret);
-
+                    OAuthClients oauthclient = new OAuthClients();
                     oauthclient.setClientId(clientId);
                     oauthclient.setClientSecret(encodedSecret);
                     oauthclient.setEmployee(curr);
+                    oauthclient.setScope(role.toLowerCase());
                     System.out.println(curr);
                     System.out.println(oauthclient);
                     oauthrepo.save(oauthclient);

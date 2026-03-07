@@ -3,15 +3,11 @@ package com.example.ams.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
-
-import java.security.PrivateKey;
 import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
-@Component
 public class OAuthClients {
 
     @Id
@@ -24,7 +20,12 @@ public class OAuthClients {
     @Column(name = "client_secret")
     private String clientSecret;
 
+    @Column(name = "scope")
+    private String scope;
+
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
+
+
 }
